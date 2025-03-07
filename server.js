@@ -1,8 +1,13 @@
+// IMPORT Routers
+const postsRouter = require("./routers/posts");
 // IMPORT Express
 const express = require("express");
 // Server Base Configuration
 const app = express();
 const port = 3000;
+
+// MIDDLEWARES
+app.use("/posts", postsRouter);
 
 // HomePage
 app.get("/", (req, res) => {
