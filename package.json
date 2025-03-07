@@ -1,0 +1,24 @@
+{
+  "name": "express-blog-sql",
+  "version": "1.0.0",
+  "description": "db exercise",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "watch": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcogulino-mg/express-blog-sql.git"
+  },
+  "author": "Marco Gulino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcogulino-mg/express-blog-sql/issues"
+  },
+  "homepage": "https://github.com/marcogulino-mg/express-blog-sql#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "mysql2": "^3.13.0"
+  }
+}
