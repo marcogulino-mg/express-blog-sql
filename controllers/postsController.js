@@ -5,15 +5,37 @@ const connection = require("../data/db");
 function index(req, res) {
   // QUERY
   const showPosts = `SELECT * FROM posts`;
+  const showTags = `
+  SELECT tags.*, post_tag.post_id
+  FROM tags
+  JOIN post_tag ON tags.id = post_tag.tag_id`;
 
   // Execute QUERY that prints every Post
-  connection.query(showPosts, (err, results) => {
+  connection.query(showPosts, (err, postsResults) => {
     if (err) return res.status(500).json({ error: "Database query failed" });
-    if (results.length === 0)
+    if (postsResults.length === 0)
       return res.status(404).json({ error: "Posts List is Empty" });
 
-    // Send RES
-    res.json(results);
+    connection.query(showTags, (err, tagsResults) => {
+      if (err) return res.status(500).json({ error: "Database query failed" });
+
+      // New Array with postsResults + tags property
+      const fullPosts = postsResults.map((post) => {
+        const tagsCopy = tagsResults
+          // If post_id === post.id then put in tags property the tagsCopy array of objects
+          .filter((tag) => tag.post_id === post.id)
+          // keeps in tagsCopy label and id of each tag
+          .map((tag) => ({ id: tag.id, label: tag.label }));
+
+        return {
+          ...post,
+          tags: tagsCopy,
+        };
+      });
+
+      // Send RES
+      res.json(fullPosts);
+    });
   });
 }
 
